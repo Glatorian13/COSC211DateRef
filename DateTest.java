@@ -9,6 +9,33 @@ import org.junit.Test;
 import org.junit.*;
 
 public class DateTest {
+	
+	//stuff testing user input
+		// https://stackoverflow.com/questions/1647907/junit-how-to-simulate-system-in-testing
+		private final InputStream sysIn = System.in;
+		private final PrintStream sysOut = System.out;
+		
+		private ByteArrayInputStream testIn;
+		private ByteArrayOutputStream testOut;
+		@Before
+		public void setUpOut() {
+			testOut = new ByteArrayOutputStream();
+			System.setOut(new PrintStream(testOut));
+		}
+		
+		private void provideIn(String data) {
+			testIn = new ByteArrayInputStream(data.getBytes());
+			System.setIn(testIn);
+		}
+		
+		/*
+		 * private String getOut() { return testOut.toString(); }
+		 */
+		@After
+		public void restoreOriginalInOut() {
+			System.setIn(sysIn);
+			System.setOut(sysOut);
+		}
 
 	/*
 	 * Cannot test methods that use System.exit because Eclipse is using JUnit 4.11.
@@ -142,35 +169,6 @@ public class DateTest {
 
 	}
 
-	
-	//stuff testing user input
-	// https://stackoverflow.com/questions/1647907/junit-how-to-simulate-system-in-testing
-	private final InputStream sysIn = System.in;
-	private final PrintStream sysOut = System.out;
-	
-	private ByteArrayInputStream testIn;
-	private ByteArrayOutputStream testOut;
-	@Before
-	public void setUpOut() {
-		testOut = new ByteArrayOutputStream();
-		System.setOut(new PrintStream(testOut));
-	}
-	
-	private void provideIn(String data) {
-		testIn = new ByteArrayInputStream(data.getBytes());
-		System.setIn(testIn);
-	}
-	
-	
-	/*
-	 * private String getOut() { return testOut.toString(); }
-	 */
-	@After
-	public void restoreOriginalInOut() {
-		System.setIn(sysIn);
-		System.setOut(sysOut);
-	}
-	
 	@Test public void testReadInput() {
 		final String testString = "March 12 2002";
 		provideIn(testString); 

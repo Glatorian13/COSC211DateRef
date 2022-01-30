@@ -87,36 +87,26 @@ public class Date {
 	}
 
 	public int getMonth() {
-		if (month.equals("January"))
-			return 1;
-		else if (month.equals("February"))
-			return 2;
-		else if (month.equalsIgnoreCase("March"))
-			return 3;
-		else if (month.equalsIgnoreCase("April"))
-			return 4;
-		else if (month.equalsIgnoreCase("May"))
-			return 5;
-		else if (month.equals("June"))
-			return 6;
-		else if (month.equalsIgnoreCase("July"))
-			return 7;
-		else if (month.equalsIgnoreCase("August"))
-			return 8;
-		else if (month.equalsIgnoreCase("September"))
-			return 9;
-		else if (month.equalsIgnoreCase("October"))
-			return 10;
-		else if (month.equals("November"))
-			return 11;
-		else if (month.equals("December"))
-			return 12;
-		else {
-			System.out.println("Fatal Error");
-			System.exit(0);
-			return 0; // Needed to keep the compiler happy
+		return switch(month.toLowerCase()) {
+		case "january" -> 1;
+		case "february" -> 2;
+		case "march" -> 3;
+		case "april" -> 4;
+		case "may" -> 5;
+		case "june" -> 6;
+		case "july" -> 7;
+		case "august" -> 8;
+		case "september" -> 9;
+		case "october" -> 10;
+		case "november" -> 11;
+		case "december" -> 12;
+		default -> {
+				System.out.println("Fatal Error");
+				System.exit(0);
+				yield 0; // Needed to keep the compiler happy
+				}
+			};
 		}
-	}
 
 	public int getDay() {
 		return day;
@@ -140,14 +130,14 @@ public class Date {
 	}
 
 	public void readInput() {
-		boolean tryAgain = true;
-		Scanner keyboard = new Scanner(System.in);
+		var tryAgain = true;
+		var keyboard = new Scanner(System.in);
 		while (tryAgain) {
 			System.out.println("Enter month, day, and year.");
 			System.out.println("Do not use a comma.");
 			String monthInput = keyboard.next();
-			int dayInput = keyboard.nextInt();
-			int yearInput = keyboard.nextInt();
+			var dayInput = keyboard.nextInt();
+			var yearInput = keyboard.nextInt();
 			if (dateOK(monthInput, dayInput, yearInput)) {
 				setDate(monthInput, dayInput, yearInput);
 				tryAgain = false;
@@ -164,44 +154,35 @@ public class Date {
 	private boolean dateOK(String monthString, int dayInt, int yearInt) {
 		return (monthOK(monthString) && (dayInt >= 1) && (dayInt <= 31) && (yearInt >= 1000) && (yearInt <= 9999));
 	}
-
+	
 	private boolean monthOK(String month) {
-		return (month.equals("January") || month.equals("February") || month.equals("March") || month.equals("April")
-				|| month.equals("May") || month.equals("June") || month.equals("July") || month.equals("August")
-				|| month.equals("September") || month.equals("October") || month.equals("November")
-				|| month.equals("December"));
+		return switch(month) {
+		case "January", "February", "March", "April", "May", "June", "July",
+		"August", "September", "October", "November", "December" -> true;
+		default -> false;
+		};
 	}
 
 	private String monthString(int monthNumber) {
-		switch (monthNumber) {
-		case 1:
-			return "January";
-		case 2:
-			return "February";
-		case 3:
-			return "March";
-		case 4:
-			return "April";
-		case 5:
-			return "May";
-		case 6:
-			return "June";
-		case 7:
-			return "July";
-		case 8:
-			return "August";
-		case 9:
-			return "September";
-		case 10:
-			return "October";
-		case 11:
-			return "November";
-		case 12:
-			return "December";
-		default:
+	return switch(monthNumber) {
+	case 1 -> "January";
+	case 2 -> "February";
+	case 3 -> "March";
+	case 4 -> "April";
+	case 5 -> "May";
+	case 6 -> "June";
+	case 7 -> "July";
+	case 8 -> "August";
+	case 9 -> "September";
+	case 10 -> "October";
+	case 11 -> "November";
+	case 12 -> "December";
+	default -> {
 			System.out.println("Fatal Error");
 			System.exit(0);
-			return "Error"; // to keep the compiler happy
-		}
+			yield "Error"; // to keep the compiler happy
+			}
+		};
 	}
+ 
 }
